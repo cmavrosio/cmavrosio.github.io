@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-24 Thu 21:47 -->
+<!-- 2025-04-24 Thu 22:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Org mode published personal site.</title>
@@ -194,6 +194,26 @@
   .org-svg { }
 </style>
 <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" />
+
+<script src="../org-info.js">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+// @license-end
+</script>
+
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+// @license-end
+</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -219,10 +239,10 @@
 <ul>
 <li><a href="#orgecdee00">4.1. Setting up export templates</a></li>
 <li><a href="#org0d7c1b7">4.2. Customizing the templates</a></li>
-<li><a href="#org3d5e637">4.3. Line break on new lines</a></li>
 </ul>
 </li>
-<li><a href="#orgd25dae2">5. Sidenotes</a></li>
+<li><a href="#org6b12a41">5. Adding the site to GitHub pages</a></li>
+<li><a href="#orgd25dae2">6. Sidenotes</a></li>
 </ul>
 </div>
 </div>
@@ -578,18 +598,33 @@ accordingly.
 </p>
 </div>
 </div>
-<div id="outline-container-org3d5e637" class="outline-3">
-<h3 id="org3d5e637"><span class="section-number-3">4.3.</span> Line break on new lines</h3>
-<div class="outline-text-3" id="text-4-3">
+</div>
+<div id="outline-container-org6b12a41" class="outline-2">
+<h2 id="org6b12a41"><span class="section-number-2">5.</span> Adding the site to GitHub pages</h2>
+<div class="outline-text-2" id="text-5">
 <p>
-See: <a href="https://emacs.stackexchange.com/questions/21556/org-mode-export-how-to-force-newline-on-lines-between-paragraphs">Here</a>
+We already setup our repo on GitHub.
+</p>
+
+<p>
+Now let&rsquo;s initialize the repo locally
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> ~/public_html
+<span style="color: #ECBE7B;">git</span> init
+<span style="color: #ECBE7B;">git</span> remote add origin https://github.com/&lt;your_username&gt;/&lt;your_username&gt;.github.io.git
+</pre>
+</div>
+
+<p>
+Commit what you want, and force push.
 </p>
 </div>
 </div>
-</div>
 <div id="outline-container-orgd25dae2" class="outline-2">
-<h2 id="orgd25dae2"><span class="section-number-2">5.</span> Sidenotes</h2>
-<div class="outline-text-2" id="text-5">
+<h2 id="orgd25dae2"><span class="section-number-2">6.</span> Sidenotes</h2>
+<div class="outline-text-2" id="text-6">
 <p>
 What are we actually doing when we add something like in our <code>config.el</code> file?
 </p>
@@ -603,7 +638,7 @@ this
 </p>
 
 
-<div class="aside" id="orgce1771b">
+<div class="aside" id="orga2c26c0">
 <p>
 <b><b>Key Idea</b></b>
 In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that modify variables. The example below customizes Org-mode&rsquo;s publishing behavior by setting two variables:
@@ -645,7 +680,7 @@ In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that mo
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Carlos Mavros</p>
-<p class="date">Created: 2025-04-24 Thu 21:47</p>
+<p class="date">Created: 2025-04-24 Thu 22:03</p>
 </div>
 </body>
 </html>
