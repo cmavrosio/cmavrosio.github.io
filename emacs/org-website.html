@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-24 Thu 21:47 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org mode published personal site.</title>
+<meta name="author" content="Carlos Mavros" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="../css/stylesheet.css" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Org mode published personal site.</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0d81d7f">1. Creating a personal site - why Org mode?</a></li>
+<li><a href="#orga203606">2. Setting up Github pages</a></li>
+<li><a href="#org7b3f6e4">3. The good stuff</a>
+<ul>
+<li><a href="#org7672e68">3.1. How everything works.</a></li>
+<li><a href="#org3fecffe">3.2. Publishing the project</a>
+<ul>
+<li><a href="#org5816d42">3.2.1. Setup</a></li>
+</ul>
+</li>
+<li><a href="#org502f836">3.3. Bonus</a></li>
+</ul>
+</li>
+<li><a href="#orga356409">4. Extra fluff</a>
+<ul>
+<li><a href="#orgecdee00">4.1. Setting up export templates</a></li>
+<li><a href="#org0d7c1b7">4.2. Customizing the templates</a></li>
+<li><a href="#org3d5e637">4.3. Line break on new lines</a></li>
+</ul>
+</li>
+<li><a href="#orgd25dae2">5. Sidenotes</a></li>
+</ul>
+</div>
+</div>
+<p>
+<b>Disclaimer:</b> I am a heretic and do use <b><b>Doom Emacs</b></b> - so this is guide will be easier to follow and replicate if you are also on the Dark side. For my fellow vanilla emacs GOATs, you guys know more than I do about Emacs so you will probably think this article is BS, if not, I trust you will figure it out.
+</p>
+
+<p>
+Also, this should work as a tutorial to replicat this on your own. Have in mind that whatever I do here is for <b><b>me</b></b> to be able to replicate in the future in the extreme case I need to do so, but I try to write this so that anyone (including future me)
+</p>
+<div id="outline-container-org0d81d7f" class="outline-2">
+<h2 id="org0d81d7f"><span class="section-number-2">1.</span> Creating a personal site - why Org mode?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I&rsquo;m simply used to it.
+</p>
+
+<p>
+It&rsquo;s great - you should probably use it - but nobody has time nowadays to appreaciate the beauty of Emacs - and VSCode seems to be somewhat at a high level similar to Emacs.
+</p>
+
+<p>
+I really do use Emacs basically nowadays just to use Org mode - and I will continue to do so.
+I keep track of everything in org mode and whenever I want to write something do, I automatically end up in an org file - it&rsquo;s muscle memory.
+</p>
+</div>
+</div>
+<div id="outline-container-orga203606" class="outline-2">
+<h2 id="orga203606"><span class="section-number-2">2.</span> Setting up Github pages</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+It&rsquo;s a pretty simple process.
+</p>
+
+<ol class="org-ol">
+<li>You need to create a new repo with the name <code>&lt;your_github_username&gt;.github.io</code> and GitHub will pick that up as your GitHub Pages repo.</li>
+<li>When you create the repo select the <b>Add README</b> option and after creating it navigate to your site - at <a href="https://cmavrosio.github.io">&lt;your-github-username&gt;.github.io</a>.</li>
+</ol>
+
+<p>
+Pretty much done here.
+</p>
+
+<p>
+Here you have <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site">the official guide</a> on how to set this up if you don&rsquo;t like my explanation.
+</p>
+</div>
+</div>
+<div id="outline-container-org7b3f6e4" class="outline-2">
+<h2 id="org7b3f6e4"><span class="section-number-2">3.</span> The good stuff</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Now we configure Org.
+</p>
+
+<p>
+Source: <a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">Official Org Guide</a>
+</p>
+</div>
+<div id="outline-container-org7672e68" class="outline-3">
+<h3 id="org7672e68"><span class="section-number-3">3.1.</span> How everything works.</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We want to have a bunch of articles written in .org files and to be able to export them all into html - which will be hosted using GitHub pages.
+Since I am following the guide mentioned above - my <code>.org</code> files live in <code>~/org</code>.
+Also, we will publish our <code>.html</code> files to <code>~/public_html/</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">mkdir</span> ~/org
+<span style="color: #ECBE7B;">mkdir</span> ~/public_html
+</pre>
+</div>
+
+
+<p>
+In the tutorial, the directory structure of <code>~/org</code> is the below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">~/org/
+   |- css/
+   |  `- stylesheet.css
+   |- img/
+   |- index.org
+   `- remember.org
+</pre>
+</div>
+
+<p>
+In order to match this, Lets create the folders and add a super-simple <code>stylesheet.css</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil">cd ~/org &amp;&amp; mkdir css &amp;&amp; mkdir img &amp;&amp; cd css &amp;&amp; echo 'h1, h2, h3, h4, h5, h6 { color: blue; }' &gt;&gt; stylesheet.css
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3fecffe" class="outline-3">
+<h3 id="org3fecffe"><span class="section-number-3">3.2.</span> Publishing the project</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org5816d42" class="outline-4">
+<h4 id="org5816d42"><span class="section-number-4">3.2.1.</span> Setup</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+To publish the project, we need to set the variable <code>org-publish-project-alist</code>
+</p>
+
+<p>
+In Doom emacs, the way to do this is to add the below to your <code>config.el</code> (open up config with <code>SPC f p</code>).
+If you want to know more about why we need this and what we are actually doing below - check out the <a href="#orgd220099">first sidenote.</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">after!</span> org
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-publish-project-alist</span>
+      <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Notes Component (Org &#8594; HTML)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-notes"</span>
+         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+         <span style="color: #c678dd;">:recursive</span> t
+         <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+         <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>
+         <span style="color: #c678dd;">:auto-preamble</span> t
+         <span style="color: #c678dd;">:auto-sitemap</span> t               <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Enable sitemap</span>
+         <span style="color: #c678dd;">:sitemap-title</span> <span style="color: #98be65;">"Site Map"</span><span style="color: #a9a1e1;">)</span>    <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Custom title</span>
+
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Static Component (Assets)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-static"</span>
+         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
+         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+         <span style="color: #c678dd;">:recursive</span> t
+         <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment<span style="color: #a9a1e1;">)</span>
+
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Meta Project (Publish All)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+        <span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Save and reload (<code>SPC h r r</code>).
+</p>
+
+<p>
+To publish the project: <code>M-x org-publish-project RET RET</code>
+</p>
+
+<p>
+Essentially above we have added three components.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgd9ca1b1"></a>Notes Component<br />
+<div class="outline-text-5" id="text-3-2-1-1">
+<p>
+This component publishes all the org files to HTML - hence the publishing function is set accordingly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span>
+ <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+ <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+ <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+ <span style="color: #c678dd;">:recursive</span> t
+ <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+ <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>             <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Just the default for this project.</span>
+ <span style="color: #c678dd;">:auto-preamble</span> t
+ <span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orge72756d"></a>Static Component<br />
+<div class="outline-text-5" id="text-3-2-1-2">
+<p>
+This component just copies files (and their folders, <code>:recursive t</code>) from the base dir to the publishing dir.
+Note the publishing function this time around.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org-static"</span>
+ <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+ <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
+ <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+ <span style="color: #c678dd;">:recursive</span> t
+ <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment
+ <span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org20a4483"></a>Publish Component<br />
+<div class="outline-text-5" id="text-3-2-1-3">
+<p>
+Just a helper to do everything at once:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #c678dd;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org502f836" class="outline-3">
+<h3 id="org502f836"><span class="section-number-3">3.3.</span> Bonus</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+The configuration we have set-up is simple but has some nice features.
+Since eveything we do is recursive, from exporting to html to copying, we can have as many subdirs as we want and have those be reflected out of the box in our site.
+</p>
+
+<p>
+For example, I will save this particular post under <code>/org/emacs</code>, makes sense doesn&rsquo;t it?
+Makes org file naming much easier also.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orga356409" class="outline-2">
+<h2 id="orga356409"><span class="section-number-2">4.</span> Extra fluff</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgecdee00" class="outline-3">
+<h3 id="orgecdee00"><span class="section-number-3">4.1.</span> Setting up export templates</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+To modify options and to start customizing our exports to our liking, we need a new directory.
+I&rsquo;m using Doom so I will use  <code>~/.config/doom/org-templates</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">mkdir</span> -p ~/.config/doom/org-templates
+</pre>
+</div>
+
+<p>
+Let&rsquo;s create template files in <code>~/.config/doom/org-templates/</code>:
+</p>
+<ul class="org-ul">
+<li><code>level-0.org</code> (root directory files)</li>
+<li><code>level-1.org</code> (1st subdirectory level)</li>
+<li><code>level-2.org</code> (2nd subdirectory level)A</li>
+</ul>
+
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">cd</span> ~/.config/doom/org-templates/
+<span style="color: #ECBE7B;">touch</span> ./level-0.org
+<span style="color: #ECBE7B;">touch</span> ./level-1.org
+<span style="color: #ECBE7B;">touch</span> ./level-2.org
+</pre>
+</div>
+
+<p>
+Each file automatically uses the template matching its directory depth:
+</p>
+<ul class="org-ul">
+<li>Root level (~/org/file.org) → level-0.org</li>
+<li>1st subdir (~/org/emacs/org-website.org) → level-1.org (this file)</li>
+<li>2nd subdir (~/org/emacs/evil-mode/heretics-only.org) → level-2.org</li>
+<li>etc.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org0d7c1b7" class="outline-3">
+<h3 id="org0d7c1b7"><span class="section-number-3">4.2.</span> Customizing the templates</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+From version to version, the defaul template may change.
+To make sure we have the right stuff we can do the following.
+</p>
+
+<p>
+If you do <code>C-c C-e # &lt;template&gt;</code> , The &ldquo;default&rdquo; template will provide a template for common options, and &ldquo;html&rdquo; will provide a template for HTML-specific options.
+You should use those as the base of your template.
+</p>
+
+<p>
+SO DO NOT COPY MINE BELOW
+</p>
+
+<p>
+default:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">#+options: ':t *:t -:t ::t &lt;:t H:3 \n:nil ^:t arch:headline author:t
+#+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
+#+options: email:nil expand-links:t f:t inline:t num:t p:nil pri:nil prop:nil
+#+options: stat:t tags:t tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
+#+title: org-website
+#+date: &lt;2025-04-24 Thu&gt;
+#+author: Carlos Mavros
+#+email: carlosmavros@Carloss-MacBook-Air.local
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 30.1 (Org mode 9.7.26)
+#+cite_export:
+</pre>
+</div>
+
+<p>
+and html:
+</p>
+<div class="org-src-container">
+<pre class="src src-text">#+options: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
+#+options: html-scripts:nil html-style:nil html5-fancy:nil tex:t
+#+html_doctype: xhtml-strict
+#+html_container: div
+#+html_content_class: content
+#+description:
+#+keywords:
+#+html_link_home:
+#+html_link_up:
+#+html_mathjax:
+#+html_equation_reference_format: \eqref{%s}
+#+html_head:
+#+html_head_extra:
+#+subtitle:
+#+infojs_opt:
+#+creator: &lt;a href="https://www.gnu.org/software/emacs/"&gt;Emacs&lt;/a&gt; 30.1 (&lt;a href="https://orgmode.org"&gt;Org&lt;/a&gt; mode 9.7.26)
+#+latex_header:
+</pre>
+</div>
+
+<p>
+I modified a bunch of stuff here. Specifically for the stylesheet you want to modify the <code>#+html_head</code> option in both files with
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">~#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="css/stylesheet.css" /&gt;~
+</pre>
+</div>
+<p>
+and
+</p>
+<div class="org-src-container">
+<pre class="src src-text">~#+HTML_HEAD: &lt;link rel="stylesheet" type="text/css" href="../css/stylesheet.css" /&gt;~
+</pre>
+</div>
+
+<p>
+accordingly.
+</p>
+</div>
+</div>
+<div id="outline-container-org3d5e637" class="outline-3">
+<h3 id="org3d5e637"><span class="section-number-3">4.3.</span> Line break on new lines</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+See: <a href="https://emacs.stackexchange.com/questions/21556/org-mode-export-how-to-force-newline-on-lines-between-paragraphs">Here</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd25dae2" class="outline-2">
+<h2 id="orgd25dae2"><span class="section-number-2">5.</span> Sidenotes</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+What are we actually doing when we add something like in our <code>config.el</code> file?
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> ..<span style="color: #51afef;">)</span>
+</pre>
+</div>
+<p>
+this
+<a id="orgd220099"></a>
+</p>
+
+
+<div class="aside" id="orgce1771b">
+<p>
+<b><b>Key Idea</b></b>
+In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that modify variables. The example below customizes Org-mode&rsquo;s publishing behavior by setting two variables:
+</p>
+<ul class="org-ul">
+<li><code>org-publish-project-alist</code> (pipeline definitions)</li>
+<li><code>org-export-global-macros</code> (export templates)</li>
+</ul>
+
+<p>
+<b><b>Doom-Specific Mechanics</b></b>
+</p>
+<ol class="org-ol">
+<li><b><b>Location</b></b> :: Doom loads your <code>config.el</code> <b>last</b>, making it ideal for overrides.</li>
+<li><p>
+<b><b>Timing</b></b> :: The <code>after!</code> macro ensures Org is fully loaded before configuration:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #51afef;">(</span><span style="color: #51afef;">after!</span> org
+     <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-publish-project-alist</span> <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>...<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>  <span style="color: #5B6268;">; </span><span style="color: #5B6268;">&#8592; Your config here</span>
+     <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-export-global-macros</span> <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>...<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div></li>
+<li><b><b>Persistence</b></b> :: These changes take effect at startup, altering Emacs&rsquo; runtime behavior.</li>
+</ol>
+
+<p>
+<b><b>Why It Matters</b></b>
+</p>
+<ul class="org-ul">
+<li><code>setq</code> directly modifies variables (e.g., enabling features like <code>auto-sitemap</code>).</li>
+<li>Doom&rsquo;s <code>after!</code> prevents &ldquo;too early&rdquo; configuration errors.</li>
+<li>Variables are the <b>levers</b> controlling Emacs&rsquo; functionality—modify them to tailor your workflow.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Carlos Mavros</p>
+<p class="date">Created: 2025-04-24 Thu 21:47</p>
+</div>
+</body>
+</html>

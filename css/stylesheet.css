@@ -1,0 +1,139 @@
+:root {
+    --base03: #002b36;
+    --base02: #073642;
+    --base01: #586e75;
+    --base00: #657b83;
+    --base0: #839496;
+    --base1: #93a1a1;
+    --base2: #eee8d5;
+    --base3: #fdf6e3;
+    --yellow: #b58900;
+    --orange: #cb4b16;
+    --red: #dc322f;
+    --magenta: #d33682;
+    --violet: #6c71c4;
+    --blue: #268bd2;
+    --cyan: #2aa198;
+    --green: #859900;
+}
+
+body {
+    font-family: "Fira Sans", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--base00);
+    background-color: var(--base3);
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Typography */
+h1.title {
+    color: var(--base02);
+    font-size: 2.4em;
+    font-weight: 700;
+    border-bottom: 2px solid var(--base2);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+.outline-2 h2 {
+    color: var(--base01);
+    font-size: 1.8em;
+    font-weight: 600;
+    border-bottom: 1px solid var(--base2);
+    padding-bottom: 8px;
+    margin-top: 40px;
+}
+
+.outline-3 h3 {
+    color: var(--base01);
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-top: 30px;
+}
+
+p {
+    margin: 1em 0;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Code blocks */
+pre {
+    background-color: var(--base2);
+    border-left: 3px solid var(--cyan);
+    border-radius: 3px;
+    padding: 1em;
+    overflow: auto;
+    font-family: "Fira Code", "Consolas", "Monaco", monospace;
+    line-height: 1.4;
+    margin: 1.5em 0;
+}
+
+code {
+    font-family: "Fira Code", "Consolas", "Monaco", monospace;
+    background-color: var(--base2);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+    color: var(--base01);
+}
+
+pre code {
+    padding: 0;
+    background-color: transparent;
+    color: var(--base01);
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 3px solid var(--base1);
+    color: var(--base0);
+    padding-left: 1em;
+    margin: 1.5em 0;
+    font-style: italic;
+}
+
+/* Lists */
+ul, ol {
+    margin: 1em 0;
+    padding-left: 2em;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1.5em 0;
+}
+
+th, td {
+    border: 1px solid var(--base2);
+    padding: 0.5em 1em;
+    text-align: left;
+}
+
+th {
+    background-color: var(--base2);
+    color: var(--base01);
+}
+
+/* Horizontal rule */
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--base2);
+    margin: 2em 0;
+}

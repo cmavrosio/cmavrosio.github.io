@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-24 Thu 19:58 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Notes</title>
+<meta name="author" content="Your Name" />
+<meta name="generator" content="Org Mode" />
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">My Notes</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0e1a852">1. Creating a personal site - why Org mode?</a></li>
+<li><a href="#org4f3e165">2. Setting up Github pages</a></li>
+<li><a href="#org9f8d8a1">3. The good stuff</a>
+<ul>
+<li><a href="#orgcc4bb35">3.1. How everything works.</a></li>
+<li><a href="#orga0e4b20">3.2. Publishing the project</a>
+<ul>
+<li><a href="#org0a26ac1">3.2.1. Setup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1dce142">4. Extra fluff</a>
+<ul>
+<li><a href="#orgfcc0595">4.1. Line break on new lines</a></li>
+</ul>
+</li>
+<li><a href="#org2c3c434">5. Sidenotes</a></li>
+</ul>
+</div>
+</div>
+<p>
+<b>Disclaimer:</b> I am a heretic and do use <b><b>Doom Emacs</b></b> - so this is guide will be easier to follow and replicate if you are also on the Dark side. For my fellow vanilla emacs GOATs, you guys know more than I do about Emacs so you will probably think this article is BS, if not, I trust you will figure it out.
+</p>
+
+<p>
+Also, this should work as a tutorial to replicat this on your own. Have in mind that whatever I do here is for <b><b>me</b></b> to be able to replicate in the future in the extreme case I need to do so, but I try to write this so that anyone (including future me)
+</p>
+<div id="outline-container-org0e1a852" class="outline-2">
+<h2 id="org0e1a852"><span class="section-number-2">1.</span> Creating a personal site - why Org mode?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I&rsquo;m simply used to it.
+</p>
+
+<p>
+It&rsquo;s great - you should probably use it - but nobody has time nowadays to appreaciate the beauty of Emacs - and VSCode seems to be somewhat at a high level similar to Emacs.
+</p>
+
+<p>
+I really do use Emacs basically nowadays just to use Org mode - and I will continue to do so.
+I keep track of everything in org mode and whenever I want to write something do, I automatically end up in an org file - it&rsquo;s muscle memory.
+</p>
+</div>
+</div>
+<div id="outline-container-org4f3e165" class="outline-2">
+<h2 id="org4f3e165"><span class="section-number-2">2.</span> Setting up Github pages</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+It&rsquo;s a pretty simple process.
+</p>
+
+<ol class="org-ol">
+<li>You need to create a new repo with the name <code>&lt;your_github_username&gt;.github.io</code> and GitHub will pick that up as your GitHub Pages repo.</li>
+<li>When you create the repo select the <b>Add README</b> option and after creating it navigate to your site - at <a href="https://cmavrosio.github.io">&lt;your-github-username&gt;.github.io</a>.</li>
+</ol>
+
+<p>
+Pretty much done here.
+</p>
+
+<p>
+Here you have <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site">the official guide</a> on how to set this up if you don&rsquo;t like my explanation.
+</p>
+</div>
+</div>
+<div id="outline-container-org9f8d8a1" class="outline-2">
+<h2 id="org9f8d8a1"><span class="section-number-2">3.</span> The good stuff</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Now we configure Org.
+</p>
+
+<p>
+Source: <a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">Official Org Guide</a>
+</p>
+</div>
+<div id="outline-container-orgcc4bb35" class="outline-3">
+<h3 id="orgcc4bb35"><span class="section-number-3">3.1.</span> How everything works.</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We want to have a bunch of articles written in .org files and to be able to export them all into html - which will be hosted using GitHub pages.
+Since I am following the guide mentioned above - my <code>.org</code> files live in <code>~/org</code>.
+Also, we will publish our <code>.html</code> files to <code>~/public_html/</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">mkdir</span> ~/org
+<span style="color: #ECBE7B;">mkdir</span> ~/public_html
+</pre>
+</div>
+
+
+<p>
+In the tutorial, the directory structure of <code>~/org</code> is the below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">~/org/
+   |- css/
+   |  `- stylesheet.css
+   |- img/
+   |- index.org
+   `- remember.org
+</pre>
+</div>
+
+<p>
+In order to match this, Lets create the folders and add a super-simple <code>stylesheet.css</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil">cd ~/org &amp;&amp; mkdir css &amp;&amp; mkdir img &amp;&amp; cd css &amp;&amp; echo 'h1, h2, h3, h4, h5, h6 { color: blue; }' &gt;&gt; stylesheet.css
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orga0e4b20" class="outline-3">
+<h3 id="orga0e4b20"><span class="section-number-3">3.2.</span> Publishing the project</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+<div id="outline-container-org0a26ac1" class="outline-4">
+<h4 id="org0a26ac1"><span class="section-number-4">3.2.1.</span> Setup</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+To publish the project, we need to set the variable <code>org-publish-project-alist</code>
+</p>
+
+<p>
+In Doom emacs, the way to do this is to add the below to your <code>config.el</code> (open up config with <code>SPC f p</code>). 
+If you want to know more about why we need this and what we are actually doing below - check out the <a href="#orgb5bd14c">first sidenote.</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">after!</span> org
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-publish-project-alist</span>
+      <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Notes Component (Org &#8594; HTML)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-notes"</span>
+         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+         <span style="color: #c678dd;">:recursive</span> t
+         <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+         <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>
+         <span style="color: #c678dd;">:auto-preamble</span> t
+         <span style="color: #c678dd;">:auto-sitemap</span> t               <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Enable sitemap</span>
+         <span style="color: #c678dd;">:sitemap-title</span> <span style="color: #98be65;">"Site Map"</span><span style="color: #a9a1e1;">)</span>    <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Custom title</span>
+
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Static Component (Assets)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-static"</span>
+         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
+         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+         <span style="color: #c678dd;">:recursive</span> t
+         <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment<span style="color: #a9a1e1;">)</span>
+
+        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Meta Project (Publish All)</span>
+        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+        <span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Save and reload (<code>SPC h r r</code>).
+</p>
+
+<p>
+To publish the project: <code>M-x org-publish-project RET RET</code>
+</p>
+
+<p>
+Essentially above we have added three components.
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgc670eb4"></a>Notes Component<br />
+<div class="outline-text-5" id="text-3-2-1-1">
+<p>
+This component publishes all the org files to HTML - hence the publishing function is set accordingly.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span>
+ <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+ <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+ <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+ <span style="color: #c678dd;">:recursive</span> t
+ <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+ <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>             <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Just the default for this project.</span>
+ <span style="color: #c678dd;">:auto-preamble</span> t
+ <span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orge3238c0"></a>Static Component<br />
+<div class="outline-text-5" id="text-3-2-1-2">
+<p>
+This component just copies files (and their folders, <code>:recursive t</code>) from the base dir to the publishing dir.
+Note the publishing function this time around.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org-static"</span>
+ <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+ <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
+ <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+ <span style="color: #c678dd;">:recursive</span> t
+ <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment
+ <span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org8d69dfb"></a>Publish Component<br />
+<div class="outline-text-5" id="text-3-2-1-3">
+<p>
+Just a helper to do everything at once:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #c678dd;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org1dce142" class="outline-2">
+<h2 id="org1dce142"><span class="section-number-2">4.</span> Extra fluff</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orgfcc0595" class="outline-3">
+<h3 id="orgfcc0595"><span class="section-number-3">4.1.</span> Line break on new lines</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+See: <a href="https://emacs.stackexchange.com/questions/21556/org-mode-export-how-to-force-newline-on-lines-between-paragraphs">Here</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c3c434" class="outline-2">
+<h2 id="org2c3c434"><span class="section-number-2">5.</span> Sidenotes</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+What are we actually doing when we add something like in our <code>config.el</code> file?
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> ..<span style="color: #51afef;">)</span>
+</pre>
+</div>
+<p>
+this
+<a id="orgb5bd14c"></a>
+</p>
+
+
+<div class="aside" id="orga0bb430">
+<p>
+<b><b>Key Idea</b></b>
+In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that modify variables. The example below customizes Org-mode&rsquo;s publishing behavior by setting two variables:
+</p>
+<ul class="org-ul">
+<li><code>org-publish-project-alist</code> (pipeline definitions)</li>
+<li><code>org-export-global-macros</code> (export templates)</li>
+</ul>
+
+<p>
+<b><b>Doom-Specific Mechanics</b></b>
+</p>
+<ol class="org-ol">
+<li><b><b>Location</b></b> :: Doom loads your <code>config.el</code> <b>last</b>, making it ideal for overrides.</li>
+<li><p>
+<b><b>Timing</b></b> :: The <code>after!</code> macro ensures Org is fully loaded before configuration:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">   <span style="color: #51afef;">(</span><span style="color: #51afef;">after!</span> org
+     <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-publish-project-alist</span> <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>...<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>  <span style="color: #5B6268;">; </span><span style="color: #5B6268;">&#8592; Your config here</span>
+     <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-export-global-macros</span> <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>...<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div></li>
+<li><b><b>Persistence</b></b> :: These changes take effect at startup, altering Emacs&rsquo; runtime behavior.</li>
+</ol>
+
+<p>
+<b><b>Why It Matters</b></b>
+</p>
+<ul class="org-ul">
+<li><code>setq</code> directly modifies variables (e.g., enabling features like <code>auto-sitemap</code>).</li>
+<li>Doom&rsquo;s <code>after!</code> prevents &ldquo;too early&rdquo; configuration errors.</li>
+<li>Variables are the <b>levers</b> controlling Emacs&rsquo; functionality—modify them to tailor your workflow.</li>
+</ul>
+
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2025-04-24 Thu 00:00</p>
+<p class="author">Author: Your Name</p>
+<p class="date">Created: 2025-04-24 Thu 19:58</p>
+</div>
+</body>
+</html>
