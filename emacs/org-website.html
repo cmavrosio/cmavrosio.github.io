@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-24 Thu 22:03 -->
+<!-- 2025-04-24 Thu 22:31 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Org mode published personal site.</title>
@@ -361,30 +361,29 @@ If you want to know more about why we need this and what we are actually doing b
 <div class="org-src-container">
 <pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">after!</span> org
   <span style="color: #c678dd;">(</span><span style="color: #51afef;">setq</span> <span style="color: #dcaeea;">org-publish-project-alist</span>
-      <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span>
-        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Notes Component (Org &#8594; HTML)</span>
-        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-notes"</span>
-         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
-         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
-         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
-         <span style="color: #c678dd;">:recursive</span> t
-         <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
-         <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>
-         <span style="color: #c678dd;">:auto-preamble</span> t
-         <span style="color: #c678dd;">:auto-sitemap</span> t               <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Enable sitemap</span>
-         <span style="color: #c678dd;">:sitemap-title</span> <span style="color: #98be65;">"Site Map"</span><span style="color: #a9a1e1;">)</span>    <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Optional: Custom title</span>
+      <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span> <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Notes Component (Org &#8594; HTML)</span>
+         <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-notes"</span>
+          <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+          <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+          <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+          <span style="color: #c678dd;">:recursive</span> t
+          <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+          <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>
+          <span style="color: #c678dd;">:auto-preamble</span> t
+          <span style="color: #c678dd;">:auto-sitemap</span> t
+          <span style="color: #c678dd;">:sitemap-filename</span> <span style="color: #98be65;">"index.org"</span>
+          <span style="color: #c678dd;">:sitemap-title</span> <span style="color: #98be65;">"Site Map"</span><span style="color: #a9a1e1;">)</span>
 
-        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Static Component (Assets)</span>
-        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-static"</span>
-         <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
-         <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
-         <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
-         <span style="color: #c678dd;">:recursive</span> t
-         <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment<span style="color: #a9a1e1;">)</span>
+         <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Static Component (Assets)</span>
+         <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org-static"</span>
+          <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+          <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"css</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">js</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">png</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">jpg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">gif</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">pdf</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">mp3</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">ogg</span><span style="color: #51afef; font-weight: bold;">\\</span><span style="color: #51afef; font-weight: bold;">|</span><span style="color: #98be65;">swf"</span>
+          <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+          <span style="color: #c678dd;">:recursive</span> t
+          <span style="color: #c678dd;">:publishing-function</span> org-publish-attachment<span style="color: #a9a1e1;">)</span>
 
-        <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Meta Project (Publish All)</span>
-        <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
-        <span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+         <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">Meta Project (Publish All)</span>
+         <span style="color: #a9a1e1;">(</span><span style="color: #98be65;">"org"</span> <span style="color: #c678dd;">:components</span> <span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span> <span style="color: #98be65;">"org-static"</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
 </pre>
 </div>
 
@@ -394,10 +393,6 @@ Save and reload (<code>SPC h r r</code>).
 
 <p>
 To publish the project: <code>M-x org-publish-project RET RET</code>
-</p>
-
-<p>
-Essentially above we have added three components.
 </p>
 </div>
 <ol class="org-ol">
@@ -409,16 +404,22 @@ This component publishes all the org files to HTML - hence the publishing functi
 
 <div class="org-src-container">
 <pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #98be65;">"org-notes"</span>
- <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
- <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
- <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
- <span style="color: #c678dd;">:recursive</span> t
- <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
- <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>             <span style="color: #5B6268;">; </span><span style="color: #5B6268;">Just the default for this project.</span>
- <span style="color: #c678dd;">:auto-preamble</span> t
- <span style="color: #51afef;">)</span>
+          <span style="color: #c678dd;">:base-directory</span> <span style="color: #98be65;">"~/org/"</span>
+          <span style="color: #c678dd;">:base-extension</span> <span style="color: #98be65;">"org"</span>
+          <span style="color: #c678dd;">:publishing-directory</span> <span style="color: #98be65;">"~/public_html/"</span>
+          <span style="color: #c678dd;">:recursive</span> t
+          <span style="color: #c678dd;">:publishing-function</span> org-html-publish-to-html
+          <span style="color: #c678dd;">:headline-levels</span> <span style="color: #da8548; font-weight: bold;">4</span>
+          <span style="color: #c678dd;">:auto-preamble</span> t
+          <span style="color: #c678dd;">:auto-sitemap</span> t
+          <span style="color: #c678dd;">:sitemap-filename</span> <span style="color: #98be65;">"index.org"</span>
+          <span style="color: #c678dd;">:sitemap-title</span> <span style="color: #98be65;">"Site Map"</span><span style="color: #51afef;">)</span>
 </pre>
 </div>
+
+<p>
+Here, I have configured the sitemap to be generated in the <code>index.html</code> because that is the entry point for GitHub pages.
+</p>
 </div>
 </li>
 <li><a id="orge72756d"></a>Static Component<br />
@@ -638,7 +639,7 @@ this
 </p>
 
 
-<div class="aside" id="orga2c26c0">
+<div class="aside" id="org3c4343e">
 <p>
 <b><b>Key Idea</b></b>
 In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that modify variables. The example below customizes Org-mode&rsquo;s publishing behavior by setting two variables:
@@ -680,7 +681,7 @@ In Emacs, configuration boils down to evaluating <b>Lisp expressions</b> that mo
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Carlos Mavros</p>
-<p class="date">Created: 2025-04-24 Thu 22:03</p>
+<p class="date">Created: 2025-04-24 Thu 22:31</p>
 </div>
 </body>
 </html>
