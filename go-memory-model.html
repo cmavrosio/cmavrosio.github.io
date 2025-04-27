@@ -1,0 +1,1435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-04-27 Sun 23:00 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Go Memory Model</title>
+<meta name="author" content="Carlos Mavros" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
+
+<script src="../org-info.js">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+// @license-end
+</script>
+
+<script>
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+// @license-end
+</script>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Go Memory Model</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org132812b">1. Go runtime</a></li>
+<li><a href="#org21e4c39">2. Memory model</a>
+<ul>
+<li><a href="#orgd30faf4">2.1. Intro</a></li>
+<li><a href="#org5b7fa15">2.2. GMM - Requirements</a>
+<ul>
+<li><a href="#orgab16174">2.2.1. Requirement 1</a></li>
+<li><a href="#org81c0f41">2.2.2. Requirement 2</a></li>
+<li><a href="#org76c89cb">2.2.3. Requirement 3</a></li>
+<li><a href="#orge072013">2.2.4. Data Race Definitions</a></li>
+</ul>
+</li>
+<li><a href="#orgcc5c262">2.3. Programs containing data races</a></li>
+<li><a href="#orga7c7f90">2.4. Synchronization</a>
+<ul>
+<li><a href="#org10b53b8">2.4.1. Intro</a></li>
+<li><a href="#orgf7faee8">2.4.2. Initialization</a></li>
+<li><a href="#org0c3b5e4">2.4.3. Creating goroutines</a></li>
+<li><a href="#orgc9ace28">2.4.4. Channel communication</a></li>
+<li><a href="#org549dbed">2.4.5. Locks</a></li>
+<li><a href="#orgd3ba84d">2.4.6. Once</a></li>
+<li><a href="#org55ea59c">2.4.7. Atomic Values</a></li>
+<li><a href="#orga19e3f2">2.4.8. Wrapping up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org9f3d77c">3. Practical</a></li>
+<li><a href="#orge78449f">4. Sidenotes</a>
+<ul>
+<li><a href="#orga2dcfd4">4.1. Stack vs Heap</a>
+<ul>
+<li><a href="#orgff1d690">4.1.1. Stack</a></li>
+<li><a href="#org7cb1de7">4.1.2. Heap</a></li>
+<li><a href="#orgcfe99b0">4.1.3. Pointers</a></li>
+</ul>
+</li>
+<li><a href="#org36419d8">4.2. Processes and Threads</a></li>
+<li><a href="#orgdc55dc5">4.3. Synchronization and Atomic operations</a>
+<ul>
+<li><a href="#org32692b3">4.3.1. DRF-SC</a></li>
+<li><a href="#orgbd3f4bf">4.3.2. Torn Read (or Torn Write)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org132812b" class="outline-2">
+<h2 id="org132812b"><span class="section-number-2">1.</span> Go runtime</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Go&rsquo;s runtime is the core system that manages the execution of Go programs.
+It handles memory allocation, garbage collection, goroutine scheduling and other low-level tasks.
+</p>
+
+<p>
+The runtime is automatically linked into every Go executable.
+</p>
+
+<p>
+The Go runtime basically provides an abstraction layer between Go programs and the operating system, enabling features like concurrency, parallelism, and efficient memory management without requiring explicit handling by the user.
+</p>
+
+<p>
+The Go runtime has several key responsibilities:
+</p>
+<ul class="org-ul">
+<li>Goroutine Scheduling</li>
+<li>GC</li>
+<li>Memory management</li>
+<li>System Calls &amp; Networking</li>
+<li>Race Detection &amp; Debugging</li>
+<li>Reflection &amp; Interface Handling</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org21e4c39" class="outline-2">
+<h2 id="org21e4c39"><span class="section-number-2">2.</span> Memory model</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgd30faf4" class="outline-3">
+<h3 id="orgd30faf4"><span class="section-number-3">2.1.</span> Intro</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+A good source on these whole topic is the <a href="https://go.dev/ref/mem">Go Spec/memory model</a> article.
+</p>
+
+
+<p>
+The Go memory model specifies the conditions under which reads of a variable in a goroutine (a <b><b>lightweight user-space thread</b></b> - more info in the <a href="#org2a27226">processes and threads</a>) can be guaranteed to observe value produced by writes to the same variable in a different goroutine,
+<b><b>Note:</b></b>: The &ldquo;main goroutine&rdquo; is the initial goroutine that starts executing the <code>main</code> function when a Go program launches.
+</p>
+
+<p>
+As always, math is helpful here:
+</p>
+
+<blockquote>
+<p>
+A partial order on a set is an arrangement such that for certain pais of elements, one precedes the other.
+</p>
+
+<p>
+A partial order is a homogeneous binary relation that is reflexive, antisymmetric and transitive.
+A partially ordered set is an ordered paid \(P=(X,\leq)\) consisting of a set \(X\) and a partial order \(\leq\)
+</p>
+</blockquote>
+
+<p>
+The <b>Go Memory Mode (GMM)</b> is precisely the set of rules that define the <b><b>ordering guarantees</b></b>, i.e. the binary relation that itself, the partial order, which is called a <b>happens-before</b> relationsship.
+</p>
+
+<p>
+In other words a <b>happens-before</b> relationship is a partial order between operations in a Go program.
+</p>
+
+<p>
+More practically, the memory model does some stuff:
+</p>
+<ol class="org-ol">
+<li>Defines Legal orderings (which interleavings of operations are valid and which consitute undefined behavious, a.k.a. <i>data-races</i>)</li>
+<li>Governs synchronization primitives by defining how channels, mutexes, atomic operations, and other stuff in the <code>sync</code> package create happen-before relationships (or <i>edges</i> in the happens-before relation).</li>
+<li>Prevents miscompilation + hardware reordering</li>
+<li>Formalizes data race conditions.</li>
+</ol>
+
+<p>
+<i>Note</i>: In comparison to other models, the GMM is weaker than sequential consistency but stronger than C/C++&rsquo;s relaxed atomics (<code>memory_order_relaxed</code>).
+</p>
+
+<p>
+*The mode*l describes the requirements on <i>program executions</i>.
+</p>
+
+<p>
+<b>Program executions</b> are just a bunch of <i>goroutine executions</i>.
+</p>
+
+<p>
+<b>Goroutine executions</b> are just a bunch of <i>memory operations</i>.
+</p>
+
+<p>
+A <b>memory operation</b> is modeled by four details:
+</p>
+<ul class="org-ul">
+<li>Its kind (ordinary data read, ordinary data write, a synchronizing operations (such as an atomic data access), a mutex operation or a channel operation).</li>
+<li>Its location in the program.</li>
+<li>The memory location or variable being accessed.</li>
+<li>The values read or written by the operation.</li>
+</ul>
+
+<p>
+A <b>goroutine execution*</b> is modeled as a set of memory operations executed by a single goroutine.
+</p>
+</div>
+</div>
+<div id="outline-container-org5b7fa15" class="outline-3">
+<h3 id="org5b7fa15"><span class="section-number-3">2.2.</span> GMM - Requirements</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+So - very simply (as per the spec) - the <b>Go memory model</b> enforces some requirements.
+</p>
+</div>
+<div id="outline-container-orgab16174" class="outline-4">
+<h4 id="orgab16174"><span class="section-number-4">2.2.1.</span> Requirement 1</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<blockquote>
+<p>
+Requirement 1: The memory operations in each goroutine must correspond to a correct sequential execution of that goroutine, given the values read from and written to memory. That execution must be consistent with the sequenced before relation, defined as the partial order requirements set out by the Go language specification for Go&rsquo;s control flow constructs as well as the order of evaluation for expressions.
+</p>
+</blockquote>
+
+<p>
+In other words, within a single goroutine the execution must appear as if all memory operations (r/w) happen in the order wirren in the code (the goroutine cannot &ldquo;see&rdquo; its own future writes or &ldquo;forget&rdquo; past writes).
+</p>
+
+<p>
+This requirement ensures that within a single goroutine, operations appear to execute in the order written in the code, regardless of what other goroutines do. It guarantees that a goroutine cannot observe its own writes in an inconsistent order, even if other goroutines modify shared variables concurrently.
+</p>
+
+<p>
+Let&rsquo;s examine the code below
+</p>
+
+<div class="org-src-container">
+<pre class="src src-nil">package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+var x int
+
+func main() {
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		x = 1
+		y := x + 1
+		fmt.Println(y) // Will always print 2
+	}()
+
+	go func() {
+		defer wg.Done()
+		x = 42
+	}()
+
+	wg.Wait() // Wait for both goroutines
+}
+</pre>
+</div>
+
+<p>
+As per the spec, within the goroutine <b><b>program order</b></b> defines a strict <b><b>sequenced-before</b></b> relationship. So, the goroutine <b><b>cannot observe its own write out or order</b></b> even if some other goroutine modifies shared variables concurrently.
+</p>
+
+<p>
+In Goroutine 1 <code>x = 1</code> is sequenced before <code>y := x + 1</code>. By definition the write to <code>x</code> must be visible to the subsequend read of <code>x</code> Thus <code>y := x + 1</code> <b>must</b> read <code>x=1</code> yielding <code>y=2</code>, and we will always print <code>2</code>.
+</p>
+
+<p>
+In Goroutine 2, the write <code>x = 42</code> is irrelevant to Goroutine 1&rsquo;s execution because there is no synchronization (no <b>happens-before</b> edge between the goroutines and the <b>sequenced-before</b> rule shields it from interference by unsynchronized concurrent writes.
+</p>
+
+<ol class="org-ol">
+<li>The Go compiler/runtime cannor reorder <code>x=1</code> and <code>y:=x+1</code> within Goroutine 1 because that would biolate the <b>sequenced-before</b> guarantee.</li>
+
+<li>Even if Goroutine 2 set <code>x = 42</code> between <code>x=1</code> and <code>y:=x+1</code> at the hardware level, Goroutine 1 <b><b>must behave</b></b> as if <code>x=1</code> is &ldquo;locked in&rdquo; before the read.</li>
+</ol>
+
+
+<p>
+<b><b>This is not an optimization - it&rsquo;s a hard guarantee</b></b> of the memory model.
+</p>
+
+<p>
+Since there is no synchronization, this is a <b>data race</b> (undefined behaviour) - so Goroutine 2&rsquo;s write might:
+</p>
+<ul class="org-ul">
+<li>Be ignored by Goroutine 1</li>
+<li>Cause memory corruption (in theory, but the Go runtime tries to prevent this)</li>
+<li>Be observed after Goroutine 1 finishes (but never during its execution)</li>
+</ul>
+
+
+<p>
+So, <b>despite</b> the sequenced before guarantee and the fact that the program above will always print <code>2</code>, we do have a data race - because a <b>data race</b> occurs when two or more goroutines access the same memeory location <b>concurrently</b>
+</p>
+
+<p>
+From the spec:
+</p>
+
+<blockquote>
+<p>
+If two operations in different goroutines do not have a happens-before relationship, they may execute concurrently (and thus form a data race).
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-org81c0f41" class="outline-4">
+<h4 id="org81c0f41"><span class="section-number-4">2.2.2.</span> Requirement 2</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+A Go program execution is modeled as a set of goroutine executions, together with a mapping \(W\) that specifies the write-like operation that each read-like operation reads from, and multiple executions of the same program can have different program executions.
+</p>
+
+<blockquote>
+<p>
+Requirement 2: For a given program execution, the mapping W, when limited to synchronizing operations, must be explainable by some implicit total order of the synchronizing operations that is consistent with sequencing and the values read and written by those operations.
+</p>
+</blockquote>
+
+<p>
+So all synchronization operations, like channel send/receives, mutex locks/unlocks must behave as if they happened in some <b>single, global order</b> that:
+</p>
+<ul class="org-ul">
+<li>Respects each goroutines own program order (<i>sequenced-before</i>)</li>
+<li>Matches the actual values read/written in the program.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-go">var x int
+var ready = make(chan struct{})
+
+// Goroutine 1
+go func() {
+    x = 1          // (1) Write
+    close(ready)   // (2) Sync operation
+}()
+
+// Goroutine 2
+go func() {
+    &lt;-ready        // (3) Sync operation (waits for close)
+    fmt.Println(x) // (4) Read
+}()
+</pre>
+</div>
+
+<p>
+Essentially, this requirements ensures that <b>synchronization operations create a consistent timeline</b> across all goroutines, preventing nonsensical outcomes.
+</p>
+
+<p>
+Ponder about this: <i>If a mutex lock happens before a lock in another goroutine, how does this requirement enforce that the second goroutines sees all the writes from the first?</i>
+</p>
+
+<p>
+&#x2026;
+</p>
+
+<p>
+After obtaining a lock, Goroutine 2 (G2) will see all writes from Goroutine 1 (G1) that happened before the unlock. But, if G1 writes to a variable without holding the lock (i.e. the lock is not the first statment in the goroutine), and G2 reads/writes it without synchronization, it&rsquo;s a data race (undefined behavior).
+</p>
+
+<blockquote>
+<p>
+The synchronized before relation is a partial order on synchronizing memory operations, derived from W. If a synchronizing read-like memory operation r observes a synchronizing write-like memory operation w (that is, if W(r) = w), then w is synchronized before r. Informally, the synchronized before relation is a subset of the implied total order mentioned in the previous paragraph, limited to the information that W directly observes.
+</p>
+
+<p>
+The happens before relation is defined as the transitive closure of the union of the sequenced before and synchronized before relations.
+</p>
+</blockquote>
+
+<p>
+Happens before is (<i>transitive closure</i>) is the smallest relation that contains the union of sequenced before and synchronized before relation and its transitive (if \(a \rightarrow b\) and \(b \rightarrow c\) then \(a \rightarrow c\) where \(\rightarrow\) is the happens before relation)
+</p>
+</div>
+</div>
+<div id="outline-container-org76c89cb" class="outline-4">
+<h4 id="org76c89cb"><span class="section-number-4">2.2.3.</span> Requirement 3</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<blockquote>
+<p>
+Requirement 3: For an ordinary (non-synchronizing) data read r on a memory location x, W(r) must be a write w that is visible to r, where visible means that both of the following hold:
+</p>
+
+<ul class="org-ul">
+<li>w happens before r.</li>
+<li>w does not happen before any other write w&rsquo; (to x) that happens before r.</li>
+</ul>
+</blockquote>
+
+<p>
+Basically, a read must see the <b>most reent write</b> in the happens-before order.
+</p>
+</div>
+</div>
+<div id="outline-container-orge072013" class="outline-4">
+<h4 id="orge072013"><span class="section-number-4">2.2.4.</span> Data Race Definitions</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+<i>Read-Write races</i> occur when read and write to <code>x</code> are no ordered by happens-before and at least one is non-synchronizing, e.g. one goroutine reads <code>x</code> while another unsynchronized goroutine writes <code>x</code>.
+</p>
+
+<p>
+<i>Write-Write races</i> occur when two writes to <code>x</code> are not ordered by happens-before and at least one is non-synchronizing, e.g. two unsynched writes.
+</p>
+
+<p>
+But what does &ldquo;at least one&rdquo; mean ? This:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var x int
+var mu sync.Mutex
+
+go func() {
+    mu.Lock()       // Synchronized read
+    _ = x           // Read
+    mu.Unlock()
+}()
+
+go func() {
+    x = 1           // Unsynchronized write (RACE)
+}()
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcc5c262" class="outline-3">
+<h3 id="orgcc5c262"><span class="section-number-3">2.3.</span> Programs containing data races</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+So now that we know how data-race free programs will execute, what happens to programs with data races?
+</p>
+
+<p>
+Any implementation <i>can</i> report a detected data race. Implemetations using ThreadSanitizer (<code>go build -race</code>) do exactly this.
+</p>
+
+<p>
+A read of an array, struct or complex number may be implemented as a read of each individual sub-value in any order. Similarly, a write to an array, struct or complex number may be implemented as a write to each individual sub-value in any order.
+</p>
+
+<p>
+For <b>single machine-word values</b>, <code>int</code> or <code>bool</code> (not even an entire machine word for bool), when you read such a variable, you must see a value that was either:
+</p>
+<ol class="org-ol">
+<li>Written <b>before</b> your read (<i>happens before</i> order)</li>
+<li>Written <b><b>concurrently</b></b> (but not causally after)</li>
+</ol>
+<p>
+Also, you cannot see &ldquo;garbage&rdquo; or values that where never written (&ldquo;out of thin air&rdquo;)
+</p>
+
+<p>
+For <b><b>multi-word values</b></b>, Go does not guarantee atomic reads/writes, and you might see <a href="#org38e64ae">torn values</a> if unsynchronized.
+</p>
+
+<p>
+There are some <b><b>special cases</b></b> for <code>interface</code> and <code>map</code> since these are <b>multi-word</b> (pointer + type/metadata) and races can cause memory corruption and they should <b><b>never be accessed concurrently without synchronzation</b></b>. This is essentially not a <i>special case</i> just a reminder that stuff that essentially are implemented as <b>multi-word</b> but seem <b>single word</b> exists and are typically of some pointer + some extra data.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Type</th>
+<th scope="col" class="org-left">Internal Representation (Simplified)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Slice</td>
+<td class="org-left">pointer + length + capacity</td>
+</tr>
+
+<tr>
+<td class="org-left">String</td>
+<td class="org-left">pointer, length</td>
+</tr>
+
+<tr>
+<td class="org-left">Map</td>
+<td class="org-left">pointer to hash table</td>
+</tr>
+
+<tr>
+<td class="org-left">Interface</td>
+<td class="org-left">type pointer, value pointer</td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+In absence of data races, Go programs behave as if all the goroutines were multiplexed onto a single processor.
+</p>
+
+<p>
+<i>Note:</i> This is sometimes calle DRF-SC: data-race-free programs execute in a sequentially consistent manner - more info <a href="#org7037ded">here.</a>
+</p>
+
+<p>
+In Go data-races are well defined, unlike C or C++, since they can report the race and terminate.
+</p>
+</div>
+</div>
+<div id="outline-container-orga7c7f90" class="outline-3">
+<h3 id="orga7c7f90"><span class="section-number-3">2.4.</span> Synchronization</h3>
+<div class="outline-text-3" id="text-2-4">
+</div>
+<div id="outline-container-org10b53b8" class="outline-4">
+<h4 id="org10b53b8"><span class="section-number-4">2.4.1.</span> Intro</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+Basically:
+</p>
+<ol class="org-ol">
+<li>The `init` functions of all packages are guaranteed to complete before the <code>main</code> function begins.</li>
+<li>The <code>go</code> statement that starts a goroutine happens before the goroutine&rsquo;s execution begins.</li>
+<li>A send on a channel happens before the corresponding receive completes.</li>
+<li>The closing of a channel happens before a receive that returns a zero value.</li>
+<li>The <code>sync</code> pacakge provides additional synchronization primitives with well-defined happens-before semantics.</li>
+</ol>
+
+<p>
+For more about syncing and atomic operations see the <a href="#org028f3e4">Sync and Atomic</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf7faee8" class="outline-4">
+<h4 id="orgf7faee8"><span class="section-number-4">2.4.2.</span> Initialization</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+As said in the <a href="#org2a27226">Processes and Threads</a> sidenote, program initialization runs in a single (the &ldquo;main&rdquo;) goroutine and may spawn other goroutines, which run concurrently.
+</p>
+
+<p>
+If a package <code>p</code> imports package <code>q</code> the completion of <code>q</code>&rsquo;s <code>init</code> functions happens before the start of any of <code>p</code>&rsquo;s and the completion of all <code>init</code> functions is synched before the start of the function <code>main.main</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-org0c3b5e4" class="outline-4">
+<h4 id="org0c3b5e4"><span class="section-number-4">2.4.3.</span> Creating goroutines</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<p>
+The <code>go</code> statement that starts a new goroutine is synchronized before the start of the goroutine&rsquo;s execution, i.e.:
+</p>
+<ul class="org-ul">
+<li><b><b>Happens-before relationship</b></b>: any memory write that occur before the <code>go</code> statment in the program order are guaranteed to be visible to the new goroutine when it starts executing</li>
+<li><b><b>Memory synchronization</b></b>: the Go runtime ensures proper memory synchronization between the <code>go</code> statment and the new goroutine.</li>
+</ul>
+
+<p>
+The exit of a goroutine is not guaranteed to be synchronzed before any event in the program.
+</p>
+
+<p>
+Example from the spec:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var a string
+
+func hello() {
+  go func() { a = "hello" }()
+  print(a)
+}
+</pre>
+</div>
+
+<p>
+The above example demonstrates a fundamental challenge in concurrent programming: <i>visibility</i> and <i>ordering</i> of memory operations accross goroutines.
+</p>
+
+<p>
+There are no synchronization guarantees, when one goroutine modifies a shared state (like variable <code>a</code>) and another reads it without explicit synchronization, there is no guarantee the write will be visible to the reading goroutine.
+</p>
+
+<p>
+Aggressive compiler optimizations, under the go memory model, are permitted. Thes might reorder instructions, cache value sin registers and eliminate seemingly unnecessary operations entirely.
+</p>
+
+<p>
+In the example there is one writer and one reader (main goroutine). It is possible that the main goroutine prints &ldquo;&rdquo;. If the effects of a goroutine must be observed &#x2013;&gt; LOCK OR CHANNEL.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc9ace28" class="outline-4">
+<h4 id="orgc9ace28"><span class="section-number-4">2.4.4.</span> Channel communication</h4>
+<div class="outline-text-4" id="text-2-4-4">
+<p>
+Each <b>send on a particular channel</b> is matched to a corresponding receive from that channel, usually in a different goroutine and&#x2026;
+</p>
+
+<blockquote>
+<p>
+A send on a channel is synchronized before the completion of the corresponding receive from that channel.
+</p>
+</blockquote>
+
+<p>
+We create a new channel with <code>make(chan val-type)</code> and the <code>channel &lt;-</code> syntax is used to send a value into a channel whereas the <code>&lt;-channel</code> syntax receives a value from the channel. By default unbuffered - to make a channel buffering up to n values: <code>make(chan val-type, n)</code>. Because this channel is buffered we can send <code>n</code> values into the channel without a corresponding concurrent receive.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "time"
+)
+
+func worker(done chan bool) {
+    fmt.Print("working...")
+    time.Sleep(time.Second)
+    fmt.Println("done")
+
+    done &lt;- true
+}
+
+func main() {
+
+    done := make(chan bool, 1)
+    go worker(done)
+
+    &lt;-done
+}
+</pre>
+</div>
+
+<p>
+Removing the <code>&lt;-done</code> would cause the program to exit before the <code>worker</code> even started.
+</p>
+</div>
+</div>
+<div id="outline-container-org549dbed" class="outline-4">
+<h4 id="org549dbed"><span class="section-number-4">2.4.5.</span> Locks</h4>
+<div class="outline-text-4" id="text-2-4-5">
+<p>
+Imagine a library (the mutex <code>l</code>) with a special rule:
+</p>
+<ul class="org-ul">
+<li>When you enter (<code>Lock()</code>) you get a ticket number (n, m etc,)</li>
+<li>When you leave (<code>Unlock()</code>) the librarian notes your number,</li>
+</ul>
+
+<p>
+The key rule is:
+</p>
+<ul class="org-ul">
+<li>If a person A leaves with ticket 3 then person B who enters and gets ticket 4 will definitely see everything person A did before leaving.</li>
+</ul>
+
+<p>
+The <code>sync</code> package implements two lock data types - <code>sync.Mutex</code> and <code>sync.RWMutex</code>. For any of those, let <code>l</code> be such a mutex, and for <code>n &lt; m</code> - call number <code>n</code> of <code>l.Unlock()</code> is synchronized before call number <code>m</code> of <code>l.Lock()</code> return.
+</p>
+
+<p>
+Hence, the below example is guaranteed to print &ldquo;foo&rdquo;, since the first call to <code>l.Unlock()</code> in f is synchronized before the second call to <code>l.Lock()</code> in main returns, which is sequenced before the print.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">
+var l sync.Mutex
+var a string
+
+func f() {
+  a = "foo"
+  l.Unlock()
+}
+
+func main() {
+  l.Lock()
+  go f()
+  l.Lock()
+  print(a)
+}
+</pre>
+</div>
+
+<p>
+Before you lock again you must unlock first - that is the main thing. Kinda obvious.
+So before you lock you must unlock hence you have set a and hence you will print always &ldquo;foo&rdquo;
+</p>
+</div>
+</div>
+<div id="outline-container-orgd3ba84d" class="outline-4">
+<h4 id="orgd3ba84d"><span class="section-number-4">2.4.6.</span> Once</h4>
+<div class="outline-text-4" id="text-2-4-6">
+<p>
+With <code>sync.Once</code> we have a safe mechanism where multiple threads can execute <code>once.Do(f)</code> for a particular <code>f</code> but only one will run <code>f()</code>, and the other calls block until <code>f()</code> has returned.
+</p>
+
+<ul class="org-ul">
+<li>Database connection initialization - ensuring database connection pool is initialized only once when the application starts.</li>
+<li>Logger initialization - setting up application logging exactly once.</li>
+<li>Configuration loading - loading and parsing in a thread-safe manner.</li>
+<li>etc..</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org55ea59c" class="outline-4">
+<h4 id="org55ea59c"><span class="section-number-4">2.4.7.</span> Atomic Values</h4>
+<div class="outline-text-4" id="text-2-4-7">
+<blockquote>
+<p>
+The APIs in the sync/atomic package are collectively “atomic operations” that can be used to synchronize the execution of different goroutines. If the effect of an atomic operation A is observed by atomic operation B, then A is synchronized before B. All the atomic operations executed in a program behave as though executed in some sequentially consistent order.
+</p>
+</blockquote>
+
+
+<p>
+For more see <a href="#org028f3e4">the relevand sidenote</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orga19e3f2" class="outline-4">
+<h4 id="orga19e3f2"><span class="section-number-4">2.4.8.</span> Wrapping up</h4>
+<div class="outline-text-4" id="text-2-4-8">
+<p>
+A resource that is useful to go over stuff once more - said differently - is the <a href="https://www.youtube.com/watch?v=NzhH0p32fMY">GoSF Meetup in 2019</a> video on YT about this topic.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org9f3d77c" class="outline-2">
+<h2 id="org9f3d77c"><span class="section-number-2">3.</span> Practical</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Check out the examples from the great <a href="https://gobyexample.com/">Go By Example</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-orge78449f" class="outline-2">
+<h2 id="orge78449f"><span class="section-number-2">4.</span> Sidenotes</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-orga2dcfd4" class="outline-3">
+<h3 id="orga2dcfd4"><span class="section-number-3">4.1.</span> Stack vs Heap</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+<a id="org0bfdc3c"></a>
+</p>
+</div>
+<div id="outline-container-orgff1d690" class="outline-4">
+<h4 id="orgff1d690"><span class="section-number-4">4.1.1.</span> Stack</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+The <b><b>stack</b></b> is the memory area used for <b><b>local variables</b></b> and <b><b>function call frames</b></b>. Each goroutine has its own <b><b>stack</b></b>.
+</p>
+
+<p>
+When a function is called, a new <b><b>stack frame</b></b> is pushed onto the stack - local variables live inside this frame.
+</p>
+
+<p>
+When the function returns, the frame is popped (memory reclaimed instantly).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">func  foo() {
+  /* 'x' and 'y' are both stored in the stack (stack frame in the stack) */
+  x := 43
+  y := x + 1
+}
+</pre>
+</div>
+
+<p>
+Memory allocation/deallocation is <b><b>fast</b></b> (just moving a pointer). No garbage collection overhead (cleaned up when functions return).
+</p>
+</div>
+</div>
+<div id="outline-container-org7cb1de7" class="outline-4">
+<h4 id="org7cb1de7"><span class="section-number-4">4.1.2.</span> Heap</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+The <b><b>heap</b></b> is the memory area used for <b><b>dynamically allocated objects</b></b> that must outlive a function call. They heap is managed by the <b><b>garbage collector</b></b> (in Go, in some other languages you do it manually).
+</p>
+
+<p>
+This memory is slower to allocate (requires GC bookeeping) and it is used when:
+</p>
+<ul class="org-ul">
+<li>A <b><b>variable escapes</b></b> its function (needed elsewhere)</li>
+<li>Memory size is <b><b>unkown at compile time</b></b> (slices, maps)</li>
+</ul>
+
+<p>
+The Go compiler decides whether a variable <b><b>escapes</b></b> to the heap. If a variables is <b><b>referenced outside its function</b></b> it goes to the heap.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">func bar() *int {
+  /* 'x' escapes (returned) so it's on the heap */
+  x := 42
+  return &amp;x
+}
+</pre>
+</div>
+
+<p>
+Heap memory is <b><b>long lived</b></b> and has a <b><b>flexible size</b></b> - but there is an overhead (GC overhead, pauses).
+</p>
+
+<p>
+We can use a nice tool to see the results of Go&rsquo;s escape analysis (performed at compile time).
+</p>
+
+<p>
+This can be done by:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">go build -gcflags=<span style="color: #98be65;">"-m"</span> main.go
+</pre>
+</div>
+
+<p>
+Using these build flags on the below:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">package main
+
+import "fmt"
+func main() {
+     a := 10
+     b := &amp;a
+     c := make([]int, 100)
+     d := make([]int, 10000)
+     escape := func() *int { return &amp;a }
+
+     fmt.Println(b)
+     fmt.Println(len(c))
+     fmt.Println(len(d))
+     fmt.Println(escape())
+}
+</pre>
+</div>
+
+<p>
+We get this result:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">~ go build -gcflags="-m" main.go
+# command-line-arguments
+./main.go:9:16: can inline main.func1
+./main.go:11:17: inlining call to fmt.Println
+./main.go:12:17: inlining call to fmt.Println
+./main.go:13:17: inlining call to fmt.Println
+./main.go:14:24: inlining call to main.func1
+./main.go:14:17: inlining call to fmt.Println
+./main.go:5:6: moved to heap: a
+./main.go:7:15: make([]int, 100) does not escape
+./main.go:8:15: make([]int, 10000) escapes to heap
+./main.go:9:16: func literal does not escape
+./main.go:11:17: ... argument does not escape
+./main.go:12:17: ... argument does not escape
+./main.go:12:21: len(c) escapes to heap
+./main.go:13:17: ... argument does not escape
+./main.go:13:21: len(d) escapes to heap
+./main.go:14:17: ... argument does not escape
+</pre>
+</div>
+
+<p>
+<b><b>Why does <code>len(.)</code> escape?</b></b> <code>len()</code> is just a built-in function that returns an integer, so why does it escape? The reason is <code>fmt.Println</code> which accepts <code>...any</code> (variadic <code>interface{}</code> arguments). When you pass <code>len(c)</code> (an <code>int</code>) to <code>fmt.Println</code> Go <b><b>converts it</b></b> to <code>interface{}</code>.
+</p>
+
+<p>
+Converting a basic type to <code>interface{}</code> requires heap allocation because interfaces can hold any type, the value must be boxed.
+</p>
+
+<p>
+Boxing refers to wrapping a <b><b>value type</b></b> like <code>int</code> or <code>float64</code> or structs inside an interface or pointer so it can be treated as a <b><b>generic type</b></b> like <code>interface{}</code>. This process <b><b>often</b></b> forces the value to move from the <b><b>stack</b></b> to the <b><b>heap</b></b>. The box is an abstraction, a wrapper that holds the type information + value.
+</p>
+
+<p>
+The next one is kinda obvious: <code>make([]int, 100)</code> does not escape to the heap vs <code>make([]int, 10000)</code> which does because the first one is allocating memory for a <b><b>small</b></b> slice (800 bytes in 64-bit systems) which stays on the stack. The other one allocates ~80KB and escapes to the heap (Go avoids large stack allocations). This is controlledby
+</p>
+
+<p>
+Working with <b><b>concrete types</b></b> avoid boxing, and if the sizes + scope meet the necessary requirements, will avoid escaping to the heap.
+</p>
+
+<p>
+Boxing can still happen but escaping avoided by using type assertions or switches + ensuring the value stays on the stack:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var x interface{} = 43 // boxing - but value stays on the stack
+y := x.(int)           // unboxing but no allocation
+</pre>
+</div>
+
+<p>
+In this case, <code>43</code>, the underlying <code>int</code> value of <code>x</code> stays on the stack because it is small (primitive value - 8 bytes on 64-bit systems) + the go compiler optimizes small interface values to avoid allocation when possible + the interface <code>x</code> itself is just two words (type pointer + value) which fits in stack space.
+</p>
+
+<p>
+No new allocations occur in <code>y := x.(int)</code> because type assertion just extracts the value that was already stored in <code>x</code> and <code>y</code> gets a brand new copy of the value <code>43</code> on the stack (simple register/memory copy operation)
+</p>
+
+<p>
+Technically: The <code>x</code> interface holds a type pointer (pointing to runtime type information for <code>int</code>) and the actual value <code>43</code> stored directly in the interface structure. When you do <code>y := x.(int)</code> Go checks the type matches, copies the value bits directly from <code>x</code>&rsquo;s data field to <code>y</code> and no pointer relationships exist between them.
+</p>
+</div>
+</div>
+<div id="outline-container-orgcfe99b0" class="outline-4">
+<h4 id="orgcfe99b0"><span class="section-number-4">4.1.3.</span> Pointers</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+A pointer is just a memory address, and it can point to data that lives on the stack <b><b>if the pointee does not escape the function</b></b> or if the pointer is <b><b>short-lived</b></b> (not stored in a global or returned)
+</p>
+
+<p>
+A pointer <b><b>forces heap allocation</b></b> if the pointee escapes or the pointer is passed to a function that keeps it alive <code>fmt.Println(&amp;x)</code>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">func main() {
+    x := 42            // `x` is on the stack
+    ptr := &amp;x          // `ptr` is a stack pointer to `x`
+    fmt.Println(*ptr)  // `x` is still on the stack
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-text"># command-line-arguments
+./main.go:8:16: inlining call to fmt.Println
+./main.go:8:16: ... argument does not escape
+./main.go:8:17: *ptr escapes to heap
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org36419d8" class="outline-3">
+<h3 id="org36419d8"><span class="section-number-3">4.2.</span> Processes and Threads</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<a id="org2a27226"></a>
+A process operates in its own <b><b>virtual address space</b></b> which is logically divided into segments for different purposes. The <b><b>VAS</b></b> of a process is an abstraction provided by the OS and CPU, making each process <b>believe</b> it has exclusive access to the entire memory range.
+</p>
+
+<p>
+This prevents processses from corrupting each other&rsquo;s memory, protects memory (prevents user code from writing to the kernel space) and allows processes to use more memory than physically available (via paging).
+</p>
+
+<p>
+In a process there are various memory segments:
+</p>
+<ul class="org-ul">
+<li>Code Segment: stores the executable instuctions (compiled machine code). This is read-only to prevent self-modifying code and is shared across processes running the same binary (e.g. multiple instances of <code>ls</code> in Linux)</li>
+<li>Data Segment: holds static data (globals and <code>static</code> variables initialized at compiled time) and also uninitialized globals (filled with zeros by the OS)</li>
+<li>Heap Segment: this holds dynamically allocated memory (<code>malloc(), new()</code>) and grows upward - towards higher addresses. It is managed by the programmer or the garbage collector.</li>
+<li>Stack Segment: this stores local variables, function calls and return addresses and grows downward - towards lower addresses. It is automatically managed by the compiler.</li>
+</ul>
+
+<p>
+While threads share <b><b>code, heap, and global data</b></b>, each thread has its own:
+</p>
+<ul class="org-ul">
+<li>Stack: for local variables and function call chains</li>
+<li>Thread-Local Storage (TLS): special globals unique to each thread.</li>
+</ul>
+
+<p>
+The OS manages memory through virtual memory, mapping virtual addresses to physical RAM (or disk, via swapping). Each process thinkgs that it has contiguous memory, but physically pages are scattered. The CPU enforces <b><b>page-level permissions</b></b> (r/w/x):
+</p>
+<ul class="org-ul">
+<li>Code: <code>Read + Execute</code></li>
+<li>Stack/Heap: <code>Read + Write</code></li>
+<li>Invalic access -&gt; Segmentation Fault (e.g. writing to code segment)</li>
+</ul>
+
+<p>
+Code segments (e.g. libraries) are shared across processes and Inter-Process Communication (IPC) shares explicitly some memory regions.
+</p>
+
+<p>
+For more on the stack vs heap, specifically in Go, check out <a href="#org0bfdc3c">Stack vs Heap</a>.
+</p>
+
+<p>
+So, a <b><b>process</b></b> is an instance of a running program, isolated from other processes by the OS.
+It includes:
+</p>
+<ul class="org-ul">
+<li>Memory Space</li>
+<li>Resources</li>
+<li>One or more threads (a process starts with a thread (main) and can spawn more)</li>
+</ul>
+
+<p>
+A <b>thread of execution</b> is:
+</p>
+<blockquote>
+<p>
+The smallest sequence of programmed instructions that can be managed independently by a scheduler, sharing
+the same memory space and resources as other threads within a process.
+</p>
+</blockquote>
+
+<p>
+A <b><b>scheduler</b></b> is a system component that decides:
+</p>
+<ul class="org-ul">
+<li>Which thread runs next on the CPU.</li>
+<li>When to switch between threads (e.g. on blocking I/O, time-slicing)..</li>
+<li>How to distribute work across CPU cores (in a multicore system).</li>
+</ul>
+
+<p>
+Schedulers can either be in the OS kernel or in the userspace - above we are talking general stuff.
+</p>
+
+<p>
+In modern Operating Systems, the CPU operates in two privilege levels: kernelspace and userspace.
+The x86 architecture, defines <b>four rings</b> (which are <b>hardware-enforced privilege levels*</b>) that control what operation a running program can perform. They provide <b>security isolation</b> preventing user applications from interfering with the OS os the hardware directly.
+</p>
+<ul class="org-ul">
+<li>Ring 0: kernel mode - highest privilege. The OS kernel runs here, executing privileged instructions (memory management, hardware access)</li>
+<li>Ring 3: user mode - lowest privilege. Applications run here, must request kernel services via system calls (e.g. read(), write())</li>
+<li>Rings 1 &amp; 2: rarely used - historically for device drivers or hypervisors.</li>
+</ul>
+
+<p>
+Kernel threads - or threads in the kernel space - are also called &ldquo;1:1 Threads&rdquo; because each application thread equals one OS thread. They are managed entirely by the OS scheduler. Examples of such threads are POSIX threads (<code>pthread</code> in C/C++), Java threads or Rust&rsquo;s threads (<code>std::thread</code>)
+</p>
+
+<p>
+Goroutines or <a href="https://en.wikipedia.org/wiki/Fiber_(computer_science)">fibers</a> map M application threads onto N OS threads - thus &ldquo;M:N threads&rdquo;. They are managed by a userspace scheduler. Many lightweight threads <code>M</code> run on a few OS threads <code>N</code>. The runtime dynamically assigns tasks to idle OS threads.
+</p>
+
+<p>
+1:1 threads are used for cpu bound parallel tasks, where the workload is purely computational and there are no I/O or syscalls and when full CPU core utilization is necessary (e.g. matrix multiplication). They are also has advantages over M:N threads when the task at hand involves blocking calls (disk I/O), because there are no <b>stravation risks</b> (in M:N models a blocking syscall stalls an OS thread, reducing available workers) + it has predictable latency (Kernel threads don&rsquo;t rely on userspace scheduling tasks).
+</p>
+
+<p>
+For high concurrency applications with IO (web server with 10k+ connections) and async-friendly workloads then M:N is better.
+</p>
+
+<p>
+Kernel threads are like sports cars (fast but expensive), and M:N threads (goroutines) are buses.
+</p>
+
+<p>
+Goroutines are <b><b>lightweight userspace threads/fibers</b></b> (M:N threads).
+</p>
+
+<p>
+Threads within a process share:
+</p>
+<ul class="org-ul">
+<li>Code, heap memory and open files.</li>
+<li>Global variables and static data.</li>
+</ul>
+
+<p>
+Each thread has its own private state:
+</p>
+<ul class="org-ul">
+<li>Stack for local variables.</li>
+<li>Program counted (PC) and CPU registers</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdc55dc5" class="outline-3">
+<h3 id="orgdc55dc5"><span class="section-number-3">4.3.</span> Synchronization and Atomic operations</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+<a id="org028f3e4"></a>
+</p>
+
+<p>
+Atomic operations are single, indivisible (lock-free) CPU instructions - they <b><b>do not block</b></b> like mutexes. Such an operation:
+</p>
+<ul class="org-ul">
+<li>Completes fully without inteference from other threads/goroutines</li>
+<li>Guarantees sequential consistncy for that specific memory access</li>
+</ul>
+
+<p>
+In contrast, synchronization (like <code>sync.Mutex</code>) uses OS-assisted locks and may block.
+The usecase for <code>sync/atomic</code> are isolated memory ops (counters, flags) whereas blocking is best for critical sections (complex logic) and prevents races for a code block.
+</p>
+
+<p>
+Atomics ensure a single op is race free, but <b><b>do not coordinate goroutines</b></b>.
+An example of a misuse would be:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var value int64
+go func() { atomic.StoreInt64(&amp;value, 1) }()
+go func() { fmt.Println(atomic.LoadInt64(&amp;value)) }()
+</pre>
+</div>
+
+<p>
+Here the <code>Print</code> may still see <code>0</code> because atomics <b><b>don&rsquo;t guarantee ordering between goroutines</b></b>, for that use channels:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-go">var value int64
+done := make(chan struct{})
+
+go func() {
+  atomic.StoreInt64(&amp;value, 1)
+  close(done)
+}
+
+go func() {
+  &lt;-done
+  fmt.Println(atomic.LoadInt64(&amp;value))
+}
+</pre>
+</div>
+</div>
+<div id="outline-container-org32692b3" class="outline-4">
+<h4 id="org32692b3"><span class="section-number-4">4.3.1.</span> DRF-SC</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+<a id="org7037ded"></a>
+</p>
+
+<p>
+DRF-SC means that a program that is free of data races (all pontentially concurrent accesses to shared variables are propperly synchronized), then the program will behave as if ti were executing in sequentially consistent manner.
+</p>
+
+<p>
+<b><b>Sequential Consistency</b></b> means that all operations appear to execute in some total order which is consistent with the program order of each individual goroutine.
+</p>
+
+<p>
+In this example:
+</p>
+<div class="org-src-container">
+<pre class="src src-go">var value int64
+go func() { atomic.StoreInt64(&amp;value, 1) }()
+go func() { fmt.Println(atomic.LoadInt64(&amp;value)) }()
+</pre>
+</div>
+
+<p>
+the atomic operations provide sequential consistency guarantees by default - these operations act as synchronization points that establish happens-before relationships.
+</p>
+
+<p>
+Possible outcomes:
+</p>
+<ul class="org-ul">
+<li>The load could print <code>0</code> if it executes before the store.</li>
+<li>The load could print <code>1</code> if it executes after the store.</li>
+<li>It will never print any other value</li>
+</ul>
+
+<p>
+Atomic operations guarantee no data races, and atomic operations ensure accesses are properly ordered. The sequence is maintained because the go memory model enforces that:
+</p>
+<ul class="org-ul">
+<li><b><b>Atomic operations</b></b> create a total order - all processors/cores will afgree on the order of atomic operations to a particular variable.</li>
+<li><b><b>Visibility</b></b> is guaranteed - once an atomic store is observed by one routine, all subsequent atomic loads will see that value or a later one.</li>
+</ul>
+
+<p>
+<b><b>Sequential consistency does not mean all executions will have the same order, it means:</b></b>
+</p>
+<ul class="org-ul">
+<li>All operations appear to execute in some single total order.</li>
+<li>That order is consistent with each goroutine&rsquo;s program order.</li>
+<li>But multiple valid orders may exists (interweaved/interleaved &#x2013; MULTIPLEXED &#x2013; you don&rsquo;t see youc football game in wrong order, but who the hell knows the order of the packets wrt the other programs - in time-division multiplexing)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgbd3f4bf" class="outline-4">
+<h4 id="orgbd3f4bf"><span class="section-number-4">4.3.2.</span> Torn Read (or Torn Write)</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+<a id="org38e64ae"></a>
+</p>
+
+<p>
+A <b><b>torn read</b></b> occurs when a memory read operation retrieves a value that was never actually written as a complete unit in memory.
+This happens when:
+</p>
+<ul class="org-ul">
+<li>The data type is larger than what the harware can read/write atomically</li>
+<li>Concurrent writes are occurring without proper synchronization.</li>
+</ul>
+
+<p>
+They are impossible with properly used atomic operations.
+Can occur with non-atomic operations on some architectures - go <code>atomic</code> package prevents this by using architecrure-specific instructions.
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Carlos Mavros</p>
+<p class="date">Created: 2025-04-27 Sun 23:00</p>
+</div>
+</body>
+</html>
