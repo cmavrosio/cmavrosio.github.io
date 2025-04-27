@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-27 Sun 23:00 -->
+<!-- 2025-04-27 Sun 23:28 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Memory Model</title>
@@ -193,7 +193,7 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
+<link rel="stylesheet" type="text/css" href="css/stylesheet.css" /><script src="js/foldable.js"></script>
 
 <script src="../org-info.js">
 // @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
@@ -257,7 +257,7 @@ org_html_manager.setup();  // activate after the parameters are set
 <li><a href="#org132812b">1. Go runtime</a></li>
 <li><a href="#org21e4c39">2. Memory model</a>
 <ul>
-<li><a href="#orgd30faf4">2.1. Intro</a></li>
+<li><a href="#orgb85bea8">2.1. Intro</a></li>
 <li><a href="#org5b7fa15">2.2. GMM - Requirements</a>
 <ul>
 <li><a href="#orgab16174">2.2.1. Requirement 1</a></li>
@@ -269,7 +269,7 @@ org_html_manager.setup();  // activate after the parameters are set
 <li><a href="#orgcc5c262">2.3. Programs containing data races</a></li>
 <li><a href="#orga7c7f90">2.4. Synchronization</a>
 <ul>
-<li><a href="#org10b53b8">2.4.1. Intro</a></li>
+<li><a href="#org0950002">2.4.1. Intro</a></li>
 <li><a href="#orgf7faee8">2.4.2. Initialization</a></li>
 <li><a href="#org0c3b5e4">2.4.3. Creating goroutines</a></li>
 <li><a href="#orgc9ace28">2.4.4. Channel communication</a></li>
@@ -336,8 +336,8 @@ The Go runtime has several key responsibilities:
 <h2 id="org21e4c39"><span class="section-number-2">2.</span> Memory model</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgd30faf4" class="outline-3">
-<h3 id="orgd30faf4"><span class="section-number-3">2.1.</span> Intro</h3>
+<div id="outline-container-orgb85bea8" class="outline-3">
+<h3 id="orgb85bea8"><span class="section-number-3">2.1.</span> Intro</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 A good source on these whole topic is the <a href="https://go.dev/ref/mem">Go Spec/memory model</a> article.
@@ -731,8 +731,8 @@ In Go data-races are well defined, unlike C or C++, since they can report the ra
 <h3 id="orga7c7f90"><span class="section-number-3">2.4.</span> Synchronization</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
-<div id="outline-container-org10b53b8" class="outline-4">
-<h4 id="org10b53b8"><span class="section-number-4">2.4.1.</span> Intro</h4>
+<div id="outline-container-org0950002" class="outline-4">
+<h4 id="org0950002"><span class="section-number-4">2.4.1.</span> Intro</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 Basically:
@@ -1429,7 +1429,7 @@ Can occur with non-atomic operations on some architectures - go <code>atomic</co
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Carlos Mavros</p>
-<p class="date">Created: 2025-04-27 Sun 23:00</p>
+<p class="date">Created: 2025-04-27 Sun 23:28</p>
 </div>
 </body>
 </html>

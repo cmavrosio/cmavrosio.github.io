@@ -137,3 +137,29 @@ hr {
     background-color: var(--base2);
     margin: 2em 0;
 }
+
+
+.foldable > h2, .foldable > h3, .foldable > h4 {
+    cursor: pointer;
+    position: relative;
+    padding-left: 1.2em;
+}
+
+.foldable > h2:before, .foldable > h3:before, .foldable > h4:before {
+    content: "▼";
+    position: absolute;
+    left: 0;
+    font-size: 0.8em;
+    color: var(--base01);
+    transition: transform 0.2s;
+}
+
+.foldable.collapsed > h2:before,
+.foldable.collapsed > h3:before,
+.foldable.collapsed > h4:before {
+    content: "▶";
+}
+
+.foldable.collapsed > div {
+    display: none;
+}
