@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-04-27 Sun 23:28 -->
+<!-- 2025-04-27 Sun 23:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Go Memory Model</title>
@@ -203,7 +203,7 @@
 <script>
 // @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
 org_html_manager.set("TOC_DEPTH", "3");
-org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_HOME", "/");
 org_html_manager.set("LINK_UP", "");
 org_html_manager.set("LOCAL_TOC", "1");
 org_html_manager.set("VIEW_BUTTONS", "0");
@@ -248,7 +248,11 @@ org_html_manager.setup();  // activate after the parameters are set
 </script>
 </head>
 <body>
-<div id="content" class="content">
+<div id="org-div-home-and-up">
+ <a accesskey="h" href=""> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><div id="content" class="content">
 <h1 class="title">Go Memory Model</h1>
 <div id="table-of-contents" role="doc-toc">
 <h2>Table of Contents</h2>
@@ -257,7 +261,7 @@ org_html_manager.setup();  // activate after the parameters are set
 <li><a href="#org132812b">1. Go runtime</a></li>
 <li><a href="#org21e4c39">2. Memory model</a>
 <ul>
-<li><a href="#orgb85bea8">2.1. Intro</a></li>
+<li><a href="#org0950002">2.1. Intro</a></li>
 <li><a href="#org5b7fa15">2.2. GMM - Requirements</a>
 <ul>
 <li><a href="#orgab16174">2.2.1. Requirement 1</a></li>
@@ -269,7 +273,7 @@ org_html_manager.setup();  // activate after the parameters are set
 <li><a href="#orgcc5c262">2.3. Programs containing data races</a></li>
 <li><a href="#orga7c7f90">2.4. Synchronization</a>
 <ul>
-<li><a href="#org0950002">2.4.1. Intro</a></li>
+<li><a href="#org3399043">2.4.1. Intro</a></li>
 <li><a href="#orgf7faee8">2.4.2. Initialization</a></li>
 <li><a href="#org0c3b5e4">2.4.3. Creating goroutines</a></li>
 <li><a href="#orgc9ace28">2.4.4. Channel communication</a></li>
@@ -323,12 +327,12 @@ The Go runtime basically provides an abstraction layer between Go programs and t
 The Go runtime has several key responsibilities:
 </p>
 <ul class="org-ul">
-<li>Goroutine Scheduling</li>
-<li>GC</li>
+<li>Goroutine scheduling</li>
+<li>Garbage collection</li>
 <li>Memory management</li>
-<li>System Calls &amp; Networking</li>
-<li>Race Detection &amp; Debugging</li>
-<li>Reflection &amp; Interface Handling</li>
+<li>System calls &amp; networking</li>
+<li>Race detection &amp; debugging</li>
+<li>Reflection &amp; interface handling</li>
 </ul>
 </div>
 </div>
@@ -336,8 +340,8 @@ The Go runtime has several key responsibilities:
 <h2 id="org21e4c39"><span class="section-number-2">2.</span> Memory model</h2>
 <div class="outline-text-2" id="text-2">
 </div>
-<div id="outline-container-orgb85bea8" class="outline-3">
-<h3 id="orgb85bea8"><span class="section-number-3">2.1.</span> Intro</h3>
+<div id="outline-container-org0950002" class="outline-3">
+<h3 id="org0950002"><span class="section-number-3">2.1.</span> Intro</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 A good source on these whole topic is the <a href="https://go.dev/ref/mem">Go Spec/memory model</a> article.
@@ -731,8 +735,8 @@ In Go data-races are well defined, unlike C or C++, since they can report the ra
 <h3 id="orga7c7f90"><span class="section-number-3">2.4.</span> Synchronization</h3>
 <div class="outline-text-3" id="text-2-4">
 </div>
-<div id="outline-container-org0950002" class="outline-4">
-<h4 id="org0950002"><span class="section-number-4">2.4.1.</span> Intro</h4>
+<div id="outline-container-org3399043" class="outline-4">
+<h4 id="org3399043"><span class="section-number-4">2.4.1.</span> Intro</h4>
 <div class="outline-text-4" id="text-2-4-1">
 <p>
 Basically:
@@ -1429,7 +1433,7 @@ Can occur with non-atomic operations on some architectures - go <code>atomic</co
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Carlos Mavros</p>
-<p class="date">Created: 2025-04-27 Sun 23:28</p>
+<p class="date">Created: 2025-04-27 Sun 23:40</p>
 </div>
 </body>
 </html>
